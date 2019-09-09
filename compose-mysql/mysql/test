@@ -1,0 +1,4 @@
+mysql -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '' WITH GRANT OPTION"
+
+mysql -u devel --password=bazinga
+mysql < /share/db_init.sql

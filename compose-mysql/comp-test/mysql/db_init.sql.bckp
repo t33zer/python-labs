@@ -1,0 +1,4 @@
+use proj;
+
+CREATE TABLE creds(username, password);
+INSERT INTO creds VALUES('USER', 'PASS')
