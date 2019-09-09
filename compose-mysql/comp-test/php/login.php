@@ -10,9 +10,10 @@
 	else {
 		echo "all fine!";
 	}
-	if (isset($_GET["user"]) && isset($_GET["password"])) {
-		$user = $conn->real_escape_string($_GET["user"]);
-		$password = $conn->real_escape_string($_GET["password"]);
+	if (isset($_POST["user"]) && isset($_POST["password"]) && $_POST["user"] && $_POST["password"]) {
+		echo "<br>isset<br>";
+		$user = $conn->real_escape_string($_POST["user"]);
+		$password = $conn->real_escape_string($_POST["password"]);
 		echo "user:pass => " . $user . ":" . $password ;
 		$query = "SELECT * FROM creds WHERE username='$user' AND password='$password'";
 		$result = $conn->query($query);
@@ -21,7 +22,7 @@
 			printf("select returned  %d rows", $result->num_rows);
 		}
 		else {
-			echo '<p>Wrong creds.. login: ' . $_GET["user"] . '; pass: ' . $_GET["password"] . '</p><a href="/index.php">Proceed back to index page</a>';
+			echo '<p>Wrong creds.. login: ' . $user . '; pass: ' . $password . '</p><a href="/index.php">Proceed back to index page</a>';
 		}
 	}
 ?>
