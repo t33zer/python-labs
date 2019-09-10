@@ -1,0 +1,4 @@
+use proj;
+
+CREATE TABLE creds(username, password);
+INSERT INTO creds VALUES('25779f8829ab7a7650e85a4cc871e6ac', '93ce1c16f09c4851526c19d86ee37540')
