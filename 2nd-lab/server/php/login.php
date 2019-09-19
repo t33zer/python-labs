@@ -13,7 +13,7 @@
 		$query = "SELECT * FROM creds WHERE username='$user' AND password='$password'";
 		$result = $conn->query($query);
 		if ($result->num_rows == 1) {
-			echo "<h2>YAY! pass: joergen</h2>";
+			echo "<h2>YAY! pass: $password</h2>";
 		}
 		else {
 			echo '<p>Wrong creds..<br> login: ' . $user . '; pass: ' . $password . '</p><a href="/index.php">Proceed back to index page</a>';
