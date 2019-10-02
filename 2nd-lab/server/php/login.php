@@ -12,7 +12,8 @@
 		$password = $conn->real_escape_string($_POST["password"]);
 		$query = "SELECT * FROM creds WHERE username='$user' AND password='$password'";
 		$result = $conn->query($query);
-		if ($result->num_rows == 1) {
+		echo "before check<br>";
+		if ($result->num_rows > 0) {
 			echo "<h2>YAY! pass: $password</h2>";
 		}
 		else {
