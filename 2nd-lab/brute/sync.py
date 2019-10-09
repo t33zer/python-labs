@@ -12,7 +12,6 @@ def gen_wordlist(low_length, high_length):
                 for passwd in range(low, high + 1):
                     f.write(str(passwd) + '\n')
 
-# TODO write brute with timing of correct guess
 def brute():
     url = "http://localhost:8080/login.php"
     creds = {'user' : 'felix', 'password' : None}
