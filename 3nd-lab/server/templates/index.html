@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Red</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="../static/css/main.css">
+
+{% endblock %}
+
+{% block body %}
+<table>
+    <tr>
+        <th>Heh</th>
+        <th>Lol</th>
+        <th>Kek</th>
+    </tr>
+    {% for kek in memes %}
+    <tr>
+        <th>{{ kek }}</th>
+        <th>{{ kek }}</th>
+        <th>{{ kek }}</th>
+    </tr>
+    {% endfor %}
+    <button type="button" class="btn btn-outline-danger">Danger</button>
+
+</table>
+{% endblock %}

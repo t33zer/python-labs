@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- refresh every 30 seconds -->
+    <meta http-equiv="refresh" content="30"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block head %} {% endblock head %}
+</head>
+<body aling='center'>
+   <h1>Wut</h1> 
+   {% block body %} {% endblock body %}
+</body>
+</html>
