@@ -1,6 +1,7 @@
 body {
     background-image: url("background.png");
     text-align: center;
+	color: yellow;
 }
 
 table {

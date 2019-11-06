@@ -8,20 +8,15 @@
 {% endblock %}
 
 {% block body %}
-<table>
-    <tr>
-        <th>Heh</th>
-        <th>Lol</th>
-        <th>Kek</th>
-    </tr>
-    {% for kek in memes %}
-    <tr>
-        <th>{{ kek }}</th>
-        <th>{{ kek }}</th>
-        <th>{{ kek }}</th>
-    </tr>
-    {% endfor %}
-    <button type="button" class="btn btn-outline-danger">Danger</button>
+	{% for entry in data %}
+		<h2>{{ entry }}</h2>
+		{% for obj in data[entry] %}
+			<p> {{ obj }} </p>
+			<ul>
+				<li> {{ data[entry][obj] }} </li>
+			</ul>
+		{% endfor %}
+	{% endfor %}
 
-</table>
+
 {% endblock %}
