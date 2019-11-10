@@ -1,11 +1,16 @@
 body {
     background-image: url("background.png");
-    text-align: center;
 	color: yellow;
+	margin-left: 10px;
 }
 
 table {
     border: 4px solid black;
     text-align: center;
     display: inline-block;
+}
+
+.title {
+	font-size: 1.2rem;
+	color: orangered;
 }

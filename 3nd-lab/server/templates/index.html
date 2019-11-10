@@ -8,12 +8,13 @@
 {% endblock %}
 
 {% block body %}
+<h1>{{ ip }}</h1>
 	{% for entry in data %}
 		<h2>{{ entry }}</h2>
 		{% for obj in data[entry] %}
-			<p> {{ obj }} </p>
+			<p class="title"> {{ obj }} </p>
+			<p class="value"> {{ (data[entry][obj]) }} </p>
 			<ul>
-				<li> {{ data[entry][obj] }} </li>
 			</ul>
 		{% endfor %}
 	{% endfor %}

@@ -1,3 +1,4 @@
+# /api/data doesn't insert or update any data... select works ok..
 from flask import Flask, request, render_template, render_template_string, g, current_app
 import json
 import socket
@@ -12,9 +13,11 @@ conn = sqlite3.connect(DATABASE_PATH)
 cursor = conn.cursor()
 
 
-def init_db():
-    db = get_db()
-
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -33,18 +36,32 @@ def index():
     cur.execute("SELECT server, data FROM data_table")
     rows = cur.fetchall()
     new_list = {}
-    for var in rows:
+    for row in rows:
 #        temp_json = json.loads(var['data'])
-        print("=>: ", var['data'])
-        print("json: ", type(var['data']))
-        ip = var['server']
+        print("=>: ", row['data'])
+        print("json: ", type(row['data']))
+        ip = row['server']
         try:
-            json_l = json.loads(var['data'])
+            json_l = json.loads(row['data'])
         except:
-            json_l = "NOT JSON"
+            json_l = {'data' : 'Null'} 
         new_list[ip] = json_l
-    return render_template('index.html', data=new_list)
+    ip = request.remote_addr
+    return render_template('index.html', ip=ip, data=new_list)
+
+
+@app.route("/api/data", methods=["POST", "GET"])
+def data_receive():
+    curs = get_db().cursor()
+    post = json.dumps(request.get_json())
+    ip = request.remote_addr
+    print(f"[!] POST: {post} <=> HOST: {type(ip)}")
+    print(curs.description)
+    result = curs.execute("""INSERT INTO data_table (`server`, `data`) VALUES ('192.168.0.103', '{"json": "iscool"')""")
+    # result = curs.execute("UPDATE data_table SET `server`='1337.1337.1337' WHERE id > 2")
+    print(result)
+    return "Heh"
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
