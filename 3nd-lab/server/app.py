@@ -9,8 +9,8 @@ app = Flask(__name__)
 HOST = '127.0.0.1'
 PORT = 1337
 DATABASE_PATH = "/home/t33/projects/python-labs/3nd-lab/server/info.db"
-conn = sqlite3.connect(DATABASE_PATH)
-cursor = conn.cursor()
+#conn = sqlite3.connect(DATABASE_PATH, check_same_thread=False)
+#cursor = conn.cursor()
 
 
 @app.teardown_appcontext
@@ -32,7 +32,8 @@ def get_db():
 @app.route("/")
 def index():
     #users_json = json.loads(raw_users)
-    cur = get_db().cursor()
+    conn = sqlite3.connect(DATABASE_PATH)
+    cur = conn.cursor()
     cur.execute("SELECT server, data FROM data_table")
     rows = cur.fetchall()
     new_list = {}
@@ -47,19 +48,23 @@ def index():
             json_l = {'data' : 'Null'} 
         new_list[ip] = json_l
     ip = request.remote_addr
+    conn.close()
     return render_template('index.html', ip=ip, data=new_list)
 
 
 @app.route("/api/data", methods=["POST", "GET"])
 def data_receive():
-    curs = get_db().cursor()
+    # insert with sqlite3.connect(DBPATH) as conn:
+    conn = sqlite3.connect(DATABASE_PATH)
+    curs = conn.cursor()
+    #curs = get_db().cursor()
     post = json.dumps(request.get_json())
     ip = request.remote_addr
     print(f"[!] POST: {post} <=> HOST: {type(ip)}")
     print(curs.description)
-    result = curs.execute("""INSERT INTO data_table (`server`, `data`) VALUES ('192.168.0.103', '{"json": "iscool"')""")
-    # result = curs.execute("UPDATE data_table SET `server`='1337.1337.1337' WHERE id > 2")
-    print(result)
+    curs.execute("""INSERT INTO data_table (`server`, `data`) VALUES ('192.168.0.103', '{"json": "iscool"')""")
+    conn.commit()
+    conn.close()
     return "Heh"
 
 
