@@ -49,3 +49,7 @@ users = get_users_list()
 with open("./users.txt", "a+") as f:
     f.write(json.dumps(users))
     
+if __name__ == "__main__":
+    
+    info_dict = get_all_info()
+    req = requests.post("localhost
