@@ -4,11 +4,11 @@ import json
 import socket
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 HOST = '127.0.0.1'
 PORT = 1337
-DATABASE_PATH = "/home/t33/projects/python-labs/3nd-lab/server/info.db"
+DATABASE_PATH = "/home/t33/projects/python-labs/3rd-lab/server/info.db"
 #conn = sqlite3.connect(DATABASE_PATH, check_same_thread=False)
 #cursor = conn.cursor()
 
@@ -37,17 +37,21 @@ def index():
     cur.execute("SELECT server, data FROM data_table")
     rows = cur.fetchall()
     new_list = {}
+    if not rows:
+        return render_template('index.html', ip=None, data={})
     for row in rows:
 #        temp_json = json.loads(var['data'])
-        print("=>: ", row['data'])
-        print("json: ", type(row['data']))
-        ip = row['server']
+        #print("=>: ", row['data'])
+        #print("json: ", type(row['data']))
+        print(row)
+        #ip = row['server']
+        ip = row[0]
         try:
-            json_l = json.loads(row['data'])
+            #json_l = json.loads(row['data'])
+            json_l = json.loads(row[1])
         except:
             json_l = {'data' : 'Null'} 
         new_list[ip] = json_l
-    ip = request.remote_addr
     conn.close()
     return render_template('index.html', ip=ip, data=new_list)
 
@@ -58,11 +62,12 @@ def data_receive():
     conn = sqlite3.connect(DATABASE_PATH)
     curs = conn.cursor()
     #curs = get_db().cursor()
+    print(f"req.getjson: {request.get_json()}")
     post = json.dumps(request.get_json())
     ip = request.remote_addr
-    print(f"[!] POST: {post} <=> HOST: {type(ip)}")
+    print(f"[!] POST: {post} <=> HOST: {(ip)}")
     print(curs.description)
-    curs.execute("""INSERT INTO data_table (`server`, `data`) VALUES ('192.168.0.103', '{"json": "iscool"')""")
+    curs.execute("""INSERT INTO data_table (`server`, `data`) VALUES (?, ?)""", (ip, post))
     conn.commit()
     conn.close()
     return "Heh"

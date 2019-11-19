@@ -1,5 +1,5 @@
 body {
-    background-image: url("background.png");
+    background-image: url("r-wallp.png");
 	color: yellow;
 	margin-left: 10px;
 }
@@ -13,4 +13,8 @@ table {
 .title {
 	font-size: 1.2rem;
 	color: orangered;
+}
+
+.value {
+	color: fuchsia;
 }
