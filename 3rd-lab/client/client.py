@@ -3,6 +3,8 @@
 import psutil
 import json
 import requests
+import configparser
+from time import sleep
 
 # returns dict of total, used and available memory
 # used + available != total, coz linux is weird
@@ -65,8 +67,17 @@ def get_all_info():
     data.update(user_list)
     return data
 
+def config_read():
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    server_ip = config['default']['ip'] 
+    server_port = config['default']['port']
+    timeout = config['default']['timeout']
+    return server_ip, server_port, int(timeout)
+
 # data of type dict
 def send_data(host='localhost', port=5000, data={}):
+    print(f"Sending data to {host}:{port}")
     req = requests.post(f"http://{host}:{port}/api/data", json=data)
     if req.status_code != 200:
         return False
@@ -74,5 +85,10 @@ def send_data(host='localhost', port=5000, data={}):
     
     
 if __name__ == "__main__":
-    info_dict = get_all_info()
-    send_data(data=info_dict)
+    raddr, rport, timeout = config_read()
+    while True:
+        raddr, rport, timeout = config_read()
+        info_dict = get_all_info()
+        send_data(raddr, rport, info_dict)
+        sleep(timeout)
+

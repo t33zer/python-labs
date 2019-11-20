@@ -27,7 +27,7 @@ def receive_info():
 #            break
 #        except:
 #            continue
-    sock.bind((ip, 8080))
+    sock.bind((ip, 5001))
     sock.listen(1)
     conn, addr = sock.accept()
     with open("config.ini", "wb") as f:
