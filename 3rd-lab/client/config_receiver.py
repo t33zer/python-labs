@@ -19,14 +19,6 @@ def receive_info():
     if ip.startswith("No internet"):
         exit("Failed to get local ip!")
     print("ip: ", ip)
-    #in case fail with port reusing
-#    for port in range(8080, 8088):
-#        try:
-#            sock.bind((ip, port))
-#            print(f"listening at {ip} {port}") 
-#            break
-#        except:
-#            continue
     sock.bind((ip, 5001))
     sock.listen(1)
     conn, addr = sock.accept()

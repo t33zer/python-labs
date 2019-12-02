@@ -5,6 +5,7 @@ import json
 import requests
 import configparser
 from time import sleep
+from config_receiver import receive_info
 
 # returns dict of total, used and available memory
 # used + available != total, coz linux is weird
@@ -29,8 +30,9 @@ def get_processor_info():
 
 def get_disk_freespace_info():
     disk = psutil.disk_usage("/") 
-    free = {'disk free space' : disk.free / (1024.0 ** 3)}
+    free = {'free dsk space' : f"{str(disk.free / (1024.0 ** 3))} Gb"}
     return free
+
 
 def get_procs_count():
     quantity = 0
@@ -67,6 +69,7 @@ def get_all_info():
     data.update(user_list)
     return data
 
+
 def config_read():
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -85,10 +88,23 @@ def send_data(host='localhost', port=5000, data={}):
     
     
 if __name__ == "__main__":
-    raddr, rport, timeout = config_read()
     while True:
-        raddr, rport, timeout = config_read()
-        info_dict = get_all_info()
-        send_data(raddr, rport, info_dict)
-        sleep(timeout)
+        try:
+            receive_info()
+            raddr, rport, timeout = config_read()
+            print("all Ok")
+            break
+        except IndexError:
+            continue
+        except KeyError:
+            continue
+
+    while True:
+        try:
+            raddr, rport, timeout = config_read()
+            info_dict = get_all_info()
+            send_data(raddr, rport, info_dict)
+            sleep(timeout)
+        except:
+            break
 
