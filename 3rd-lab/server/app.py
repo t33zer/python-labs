@@ -1,5 +1,7 @@
+# TODO write subnet identification
 # /api/data doesn't insert or update any data... select works ok..
 from flask import Flask, request, render_template, render_template_string, g, current_app
+import os
 import json
 import socket
 import sqlite3
@@ -8,7 +10,7 @@ app = Flask(__name__, static_url_path='/static')
 
 HOST = '127.0.0.1'
 PORT = 1337
-DATABASE_PATH = "/home/t33/projects/python-labs/3rd-lab/server/info.db"
+DATABASE_PATH = os.getenv("DB_PATH")
 #conn = sqlite3.connect(DATABASE_PATH, check_same_thread=False)
 #cursor = conn.cursor()
 
