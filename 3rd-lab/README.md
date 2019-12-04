@@ -1,6 +1,6 @@
 # Client-server info collector
 ## Info
-###>_  This app collects system info from all client.
+###>_  This app collects system info from all client
 ###>_ Server side sends config with configuration info
 ###>_ Server then starts to serve simple web-page powered by Flask
 ###>_ Client side receives config and then collects system info and sends it to server via POST request with interval from config
