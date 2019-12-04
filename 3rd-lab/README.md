@@ -1,6 +1,6 @@
 # Client-server info collector
 ## Info
-###>_ This app collects system info from all client
+### >_ This app collects system info from all client
 
 ###>_ Server side sends config with configuration info
 
